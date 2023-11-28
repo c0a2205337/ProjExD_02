@@ -16,17 +16,25 @@ kk_img0 = pg.transform.rotozoom(pg.image.load("ex02/fig/3.png"), 0, 2.0)  # 反�
 kk_img = pg.transform.flip(kk_img0, True, False)  # 反転後の画像
 kk_img_GO = pg.transform.rotozoom(pg.image.load("ex02/fig/8.png"), 0, 2.0)  # ゲームオーバーの画像
 
-kk_rot_dict = {  # 演習1 移動量に対するrotozoomの角度の辞書
-    # (0, 0): pg.transform.rotozoom(kk_img0, 0, 1.0) ,
-    (-5, 0): pg.transform.rotozoom(kk_img0, 0, 1.0) ,
-    (-5, -5): pg.transform.rotozoom(kk_img0, 310, 1.0) ,
-    (0, -5): pg.transform.rotozoom(kk_img, 90, 1.0) ,
-    (-5, +5): pg.transform.rotozoom(kk_img0, 45, 1.0) ,
-    (+5, 0): pg.transform.rotozoom(kk_img, 0, 1.0) ,
-    (+5, +5): pg.transform.rotozoom(kk_img, 310, 1.0) ,
-    (0, +5): pg.transform.rotozoom(kk_img0, 90, 1.0) ,
-    (+5, -5): pg.transform.rotozoom(kk_img, 45, 1.0) ,
-}
+
+def kk_rot(value) -> pg.Surface:
+    """
+    移動方向に応じて角度を変更したこうかとんのSurfaceを返す関数
+    引数 value 移動方向のタプル
+    戻り値:角度を変更したこうかとんのSurface
+    """
+    kk_rot_dict = {  # 演習1 移動量に対するrotozoomの角度の辞書
+        (-5, 0): pg.transform.rotozoom(kk_img0, 0, 1.0) ,
+        (-5, -5): pg.transform.rotozoom(kk_img0, 310, 1.0) ,
+        (0, -5): pg.transform.rotozoom(kk_img, 90, 1.0) ,
+        (-5, +5): pg.transform.rotozoom(kk_img0, 45, 1.0) ,
+        (+5, 0): pg.transform.rotozoom(kk_img, 0, 1.0) ,
+        (+5, +5): pg.transform.rotozoom(kk_img, 310, 1.0) ,
+        (0, +5): pg.transform.rotozoom(kk_img0, 90, 1.0) ,
+        (+5, -5): pg.transform.rotozoom(kk_img, 45, 1.0) ,
+    }
+    return kk_rot_dict[value]
+    
 
 accs = [a for a in range(1, 11)]
 bb_imgs = []
@@ -100,7 +108,7 @@ def main():
         if check_bound(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         if (sum_mv[0], sum_mv[1]) != (0, 0):
-            kk_img = kk_rot_dict[(sum_mv[0], sum_mv[1])]  # 演習1 移動方向からこうかとんの画像の向きを変更
+            kk_img = kk_rot((sum_mv[0], sum_mv[1]))  # 演習1 移動方向からこうかとんの画像の向きを変更
         screen.blit(kk_img, kk_rct)
         bb_img = bb_imgs[min(tmr//500, 9)]  # リストから大きさ変更
         avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]  # リストから速さ変更
