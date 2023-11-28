@@ -12,9 +12,8 @@ delta = {  # 練習3 押下キーと移動量の定義
     pg.K_RIGHT: (5, 0)
 }
 
-kk_img0 = pg.transform.rotozoom(pg.image.load("ex02/fig/3.png"), 0, 2.0)
-kk_img = pg.transform.flip(kk_img0, True, False)
-
+kk_img0 = pg.transform.rotozoom(pg.image.load("ex02/fig/3.png"), 0, 2.0)  # 反転前の画像
+kk_img = pg.transform.flip(kk_img0, True, False)  # 反転後の画像
 kk_img_GO = pg.transform.rotozoom(pg.image.load("ex02/fig/8.png"), 0, 2.0)  # ゲームオーバーの画像
 
 kk_rot_dict = {  # 演習1 移動量に対するrotozoomの角度の辞書
@@ -100,9 +99,8 @@ def main():
         kk_rct.move_ip(sum_mv[0], sum_mv[1]) 
         if check_bound(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
-        # print((sum_mv[0], sum_mv[1]))
         if (sum_mv[0], sum_mv[1]) != (0, 0):
-            kk_img = kk_rot_dict[(sum_mv[0], sum_mv[1])]  # 演習1
+            kk_img = kk_rot_dict[(sum_mv[0], sum_mv[1])]  # 演習1 移動方向からこうかとんの画像の向きを変更
         screen.blit(kk_img, kk_rct)
         bb_img = bb_imgs[min(tmr//500, 9)]  # リストから大きさ変更
         avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]  # リストから速さ変更
