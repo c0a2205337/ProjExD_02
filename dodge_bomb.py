@@ -67,9 +67,7 @@ def main():
     bb_rct = bb_img.get_rect() # 練習1 
     bb_rct.centerx = random.randint(0, WIDTH)
     bb_rct.centery = random.randint(0, HEIGHT)
-    
     kk_img = pg.transform.rotozoom(kk_img, 10, 1.0)
-    
     clock = pg.time.Clock()
     tmr = 0
     vx, vy = +5, +5
