@@ -54,6 +54,10 @@ def main():
             if event.type == pg.QUIT: 
                 return
             
+        if kk_rct.colliderect(bb_rct):
+            print("Game Over")
+            return 
+        
         key_lst = pg.key.get_pressed()
         #print(len(key_lst))
         sum_mv = [0, 0]
@@ -78,7 +82,7 @@ def main():
 
         pg.display.update()
         tmr += 1
-        clock.tick(1000)
+        clock.tick(100)
 
 
 if __name__ == "__main__":
