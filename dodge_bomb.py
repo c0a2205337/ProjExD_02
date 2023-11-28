@@ -12,6 +12,21 @@ delta = {  # 練習3 押下キーと移動量の定義
     pg.K_RIGHT: (5, 0)
 }
 
+kk_img0 = pg.transform.rotozoom(pg.image.load("ex02/fig/3.png"), 0, 2.0)
+kk_img = pg.transform.flip(kk_img0, True, False)
+
+kk_rot_dict = {  # 演習1 移動量に対するrotozoomの角度の辞書
+    # (0, 0): pg.transform.rotozoom(kk_img0, 0, 1.0) ,
+    (-5, 0): pg.transform.rotozoom(kk_img0, 0, 1.0) ,
+    (-5, -5): pg.transform.rotozoom(kk_img0, 310, 1.0) ,
+    (0, -5): pg.transform.rotozoom(kk_img, 90, 1.0) ,
+    (-5, +5): pg.transform.rotozoom(kk_img0, 45, 1.0) ,
+    (+5, 0): pg.transform.rotozoom(kk_img, 0, 1.0) ,
+    (+5, +5): pg.transform.rotozoom(kk_img, 310, 1.0) ,
+    (0, +5): pg.transform.rotozoom(kk_img0, 90, 1.0) ,
+    (+5, -5): pg.transform.rotozoom(kk_img, 45, 1.0) ,
+}
+
 
 def check_bound(rct: pg.Rect) -> tuple:
     """
@@ -42,6 +57,9 @@ def main():
     bb_rct.centerx = random.randint(0, WIDTH)
     bb_rct.centery = random.randint(0, HEIGHT)
     
+    kk_img = pg.transform.rotozoom(kk_img, 10, 1.0)
+    
+
     
     clock = pg.time.Clock()
     tmr = 0
@@ -69,7 +87,10 @@ def main():
         screen.blit(bg_img, [0, 0])
         kk_rct.move_ip(sum_mv[0], sum_mv[1]) 
         if check_bound(kk_rct) != (True, True):
-            kk_rct.move_ip(-sum_mv[0], -sum_mv[1]) 
+            kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
+        # print((sum_mv[0], sum_mv[1]))
+        if (sum_mv[0], sum_mv[1]) != (0, 0):
+            kk_img = kk_rot_dict[(sum_mv[0], sum_mv[1])]  # 演習1
         screen.blit(kk_img, kk_rct)
         bb_rct.move_ip(vx, vy)  # 練習2
         yoko, tate = check_bound(bb_rct)
