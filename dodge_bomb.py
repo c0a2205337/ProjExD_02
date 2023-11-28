@@ -15,6 +15,8 @@ delta = {  # 練習3 押下キーと移動量の定義
 kk_img0 = pg.transform.rotozoom(pg.image.load("ex02/fig/3.png"), 0, 2.0)
 kk_img = pg.transform.flip(kk_img0, True, False)
 
+kk_img_GO = pg.transform.rotozoom(pg.image.load("ex02/fig/8.png"), 0, 2.0)  # ゲームオーバーの画像
+
 kk_rot_dict = {  # 演習1 移動量に対するrotozoomの角度の辞書
     # (0, 0): pg.transform.rotozoom(kk_img0, 0, 1.0) ,
     (-5, 0): pg.transform.rotozoom(kk_img0, 0, 1.0) ,
@@ -71,7 +73,6 @@ def main():
     clock = pg.time.Clock()
     tmr = 0
     vx, vy = +5, +5
-
     
 
     while True:
@@ -80,9 +81,14 @@ def main():
             if event.type == pg.QUIT: 
                 return
             
-        if kk_rct.colliderect(bb_rct):
+        if kk_rct.colliderect(bb_rct):  # ゲームオーバー時の処理
+            kk_img = kk_img_GO
+            screen.blit(bg_img, [0, 0])
+            screen.blit(kk_img, kk_rct)
+            pg.display.update()
+            pg.time.wait(300)
             print("Game Over")
-            return 
+            return
         
         key_lst = pg.key.get_pressed()
         #print(len(key_lst))
