@@ -27,6 +27,15 @@ kk_rot_dict = {  # 演習1 移動量に対するrotozoomの角度の辞書
     (+5, -5): pg.transform.rotozoom(kk_img, 45, 1.0) ,
 }
 
+accs = [a for a in range(1, 11)]
+bb_imgs = []
+for r in range(1, 11):
+    bb_img = pg.Surface((20*r, 20*r))
+    pg.draw.circle(bb_img, (255, 0, 0), (10*r, 10*r), 10*r)
+    bb_img.set_colorkey((0, 0, 0))
+    bb_imgs.append(bb_img)
+    
+
 
 def check_bound(rct: pg.Rect) -> tuple:
     """
@@ -59,12 +68,11 @@ def main():
     
     kk_img = pg.transform.rotozoom(kk_img, 10, 1.0)
     
-
-    
     clock = pg.time.Clock()
     tmr = 0
     vx, vy = +5, +5
 
+    
 
     while True:
 
@@ -92,7 +100,9 @@ def main():
         if (sum_mv[0], sum_mv[1]) != (0, 0):
             kk_img = kk_rot_dict[(sum_mv[0], sum_mv[1])]  # 演習1
         screen.blit(kk_img, kk_rct)
-        bb_rct.move_ip(vx, vy)  # 練習2
+        bb_img = bb_imgs[min(tmr//500, 9)]  # リストから大きさ変更
+        avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]  # リストから速さ変更
+        bb_rct.move_ip(avx, avy)  # 練習2
         yoko, tate = check_bound(bb_rct)
         if not yoko:
             vx *= -1
